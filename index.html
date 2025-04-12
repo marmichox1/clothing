@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veloce | Performance Sportswear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1a1a2e',
+                        secondary: '#16213e',
+                        accent: '#e94560',
+                        light: '#f9f9f9',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Bebas Neue', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9;
+            color: #1a1a2e;
+            overflow-x: hidden;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+        
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .scroll-down {
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .hamburger {
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger.active .line-1 {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .hamburger.active .line-2 {
+            opacity: 0;
+        }
+        
+        .hamburger.active .line-3 {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        .nav-menu {
+            transition: all 0.3s ease;
+            max-height: 0;
+            overflow: hidden;
+        }
+        
+        .nav-menu.active {
+            max-height: 500px;
+        }
+        
+        .hero-btn-primary {
+            background: linear-gradient(135deg, #e94560 0%, #ff6b81 100%);
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .hero-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.6);
+        }
+        
+        .hero-btn-secondary {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .hero-btn-secondary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.5s ease;
+        }
+        
+        .hero-btn-secondary:hover::before {
+            left: 100%;
+        }
+        
+        .hero-btn-secondary:hover {
+            border-color: white;
+        }
+    </style>
+</head>
+<body class="relative">
+    <!-- Navigation -->
+    <header class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-3xl font-display tracking-wider text-primary">VELOCE</a>
+                
+                <div class="hidden md:flex space-x-8">
+                    <a href="collections.html" class="font-medium hover:text-accent transition-colors">Collections</a>
+                    <a href="men.html" class="font-medium hover:text-accent transition-colors">Men</a>
+                    <a href="women.html" class="font-medium hover:text-accent transition-colors">Women</a>
+                    <a href="about.html" class="font-medium hover:text-accent transition-colors">About</a>
+                    <a href="contact.html" class="font-medium hover:text-accent transition-colors">Contact</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button class="p-2 hover:text-accent transition-colors">
+                        <i class="fas fa-search text-lg"></i>
+                    </button>
+                    <button id="hamburger" class="md:hidden p-2 hamburger">
+                        <span class="line-1 block w-6 h-0.5 bg-primary mb-1.5 transition-transform"></span>
+                        <span class="line-2 block w-6 h-0.5 bg-primary mb-1.5 transition-opacity"></span>
+                        <span class="line-3 block w-6 h-0.5 bg-primary transition-transform"></span>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="nav-menu" class="nav-menu md:hidden">
+                <div class="flex flex-col space-y-4 mt-4">
+                    <a href="collections.html" class="font-medium hover:text-accent transition-colors">Collections</a>
+                    <a href="men.html" class="font-medium hover:text-accent transition-colors">Men</a>
+                    <a href="women.html" class="font-medium hover:text-accent transition-colors">Women</a>
+                    <a href="about.html" class="font-medium hover:text-accent transition-colors">About</a>
+                    <a href="contact.html" class="font-medium hover:text-accent transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient min-h-screen flex items-center pt-20">
+        <div class="container mx-auto px-6 py-24">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h1 class="text-5xl md:text-7xl font-display tracking-wide text-white mb-6 animate-fade-in">
+                        PERFORMANCE <span class="text-accent">REDEFINED</span>
+                    </h1>
+                    <p class="text-xl text-white/80 mb-8 max-w-lg animate-fade-in animation-delay-100">
+                        Engineered for athletes who demand more. Our cutting-edge sportswear combines advanced materials with sleek design.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 animate-fade-in animation-delay-200">
+                        <a href="collections.html" class="hero-btn-primary text-white px-8 py-4 rounded-full font-medium text-center">
+                            Explore Collections
+                        </a>
+                        <a href="about.html" class="hero-btn-secondary border-2 border-white/30 text-white px-8 py-4 rounded-full font-medium text-center">
+                            Our Technology
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative animate-float">
+                    <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80" 
+                         alt="Veloce Sportswear" 
+                         class="w-full max-w-md mx-auto rounded-xl shadow-2xl">
+                    <div class="absolute -bottom-6 -left-6 w-32 h-32 bg-accent/20 rounded-full -z-10"></div>
+                    <div class="absolute -top-6 -right-6 w-24 h-24 bg-white/10 rounded-full -z-10"></div>
+                </div>
+            </div>
+            
+            <div class="mt-24 text-center animate-fade-in animation-delay-300">
+                <a href="#collections" class="scroll-down text-white flex flex-col items-center">
+                    <span class="mb-2">Explore</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Collections -->
+    <section id="collections" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display tracking-wide mb-4">OUR COLLECTIONS</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    Designed for peak performance across all sports disciplines. Lightweight, breathable, and built to move with you.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Collection 1 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                         alt="Running Collection" 
+                         class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-8">
+                        <div>
+                            <h3 class="text-2xl font-display text-white mb-2">Velocity</h3>
+                            <p class="text-white/80 mb-4">High-performance running gear engineered for speed</p>
+                            <a href="men.html#velocity" class="text-accent font-medium flex items-center">
+                                View Collection <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Collection 2 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f5b2f836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                         alt="Training Collection" 
+                         class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-8">
+                        <div>
+                            <h3 class="text-2xl font-display text-white mb-2">Apex</h3>
+                            <p class="text-white/80 mb-4">Versatile training apparel for all your workouts</p>
+                            <a href="women.html#apex" class="text-accent font-medium flex items-center">
+                                View Collection <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Collection 3 -->
+                <div class="group relative overflow-hidden rounded-2xl shadow-lg">
+                    <img src="https://images.unsplash.com/photo-1600185365926-3a2ce3cdb8eb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80" 
+                         alt="Recovery Collection" 
+                         class="w-full h-96 object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-8">
+                        <div>
+                            <h3 class="text-2xl font-display text-white mb-2">Zenith</h3>
+                            <p class="text-white/80 mb-4">Premium recovery wear for optimal muscle repair</p>
+                            <a href="collections.html#zenith" class="text-accent font-medium flex items-center">
+                                View Collection <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-16">
+                <a href="collections.html" class="inline-block bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full font-medium transition-colors">
+                    View All Collections
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Showcase -->
+    <section class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                         alt="Veloce Technology" 
+                         class="w-full max-w-md mx-auto rounded-xl shadow-xl">
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <h2 class="text-4xl font-display tracking-wide mb-6">ADVANCED FABRIC TECHNOLOGY</h2>
+                    
+                    <div class="space-y-8">
+                        <div class="flex">
+                            <div class="mr-6">
+                                <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                                    <i class="fas fa-wind text-accent text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">AeroWeave™</h3>
+                                <p class="text-gray-600">
+                                    Our proprietary fabric technology reduces drag by 18% compared to traditional sportswear, giving you that competitive edge.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="mr-6">
+                                <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                                    <i class="fas fa-temperature-low text-accent text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">ThermoRegulate+</h3>
+                                <p class="text-gray-600">
+                                    Smart temperature regulation keeps you cool when it's hot and warm when it's cold, adapting to your body's needs.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="mr-6">
+                                <div class="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                                    <i class="fas fa-recycle text-accent text-xl"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold mb-2">EcoFlex™</h3>
+                                <p class="text-gray-600">
+                                    Made from 87% recycled materials without compromising performance or durability. Sustainable innovation at its finest.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-12">
+                        <a href="about.html#technology" class="inline-block border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-full font-medium transition-colors">
+                            Learn More About Our Tech
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Athlete Testimonials -->
+    <section class="py-20 bg-gray-900 text-white parallax" style="background-image: url('https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80')">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display tracking-wide mb-4">TRUSTED BY ATHLETES</h2>
+                <p class="text-lg text-white/80 max-w-2xl mx-auto">
+                    Professionals who push their limits choose Veloce for uncompromising performance.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-8">
+                    <div class="flex items-center mb-6">
+                        <img src="https://images.unsplash.com/photo-1565992441121-4367c2967103?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=627&q=80" 
+                             alt="Sarah Johnson" 
+                             class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-semibold">Sarah Johnson</h4>
+                            <p class="text-white/60">Olympic Marathon Runner</p>
+                        </div>
+                    </div>
+                    <p class="text-white/80">
+                        "The Aero Jacket is a game-changer for my training. The reduced wind resistance is noticeable on long runs, and the temperature regulation keeps me comfortable in all conditions."
+                    </p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 2 -->
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-8">
+                    <div class="flex items-center mb-6">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
+                             alt="Marcus Chen" 
+                             class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-semibold">Marcus Chen</h4>
+                            <p class="text-white/60">Professional Triathlete</p>
+                        </div>
+                    </div>
+                    <p class="text-white/80">
+                        "I've tried countless brands, but Veloce's attention to detail is unmatched. Their training shorts provide the perfect balance of compression and freedom of movement."
+                    </p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+                
+                <!-- Testimonial 3 -->
+                <div class="bg-white/10 backdrop-blur-md rounded-xl p-8">
+                    <div class="flex items-center mb-6">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             alt="Elena Rodriguez" 
+                             class="w-16 h-16 rounded-full object-cover mr-4">
+                        <div>
+                            <h4 class="font-semibold">Elena Rodriguez</h4>
+                            <p class="text-white/60">Professional Cyclist</p>
+                        </div>
+                    </div>
+                    <p class="text-white/80">
+                        "The moisture-wicking properties of Veloce's base layers are incredible. Even during the most intense climbs, I stay dry and comfortable."
+                    </p>
+                    <div class="flex text-yellow-400 mt-4">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-4xl font-display tracking-wide mb-6">JOIN THE VELOCE COMMUNITY</h2>
+                <p class="text-lg text-gray-600 mb-8">
+                    Subscribe to get exclusive offers, early access to new collections, and training tips from our team of experts.
+                </p>
+                
+                <form class="flex flex-col sm:flex-row max-w-md mx-auto sm:max-w-xl">
+                    <input type="email" 
+                           placeholder="Your email address" 
+                           class="flex-1 px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent mb-4 sm:mb-0 sm:mr-4">
+                    <button type="submit" class="bg-accent hover:bg-accent/90 text-white px-8 py-3 rounded-full font-medium transition-colors">
+                        Subscribe
+                    </button>
+                </form>
+                
+                <p class="text-sm text-gray-500 mt-4">
+                    We respect your privacy. Unsubscribe at any time.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-display tracking-wider mb-4">VELOCE</h3>
+                    <p class="text-white/70 mb-4">
+                        Performance sportswear engineered for athletes who demand more.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Shop</h4>
+                    <ul class="space-y-2">
+                        <li><a href="men.html" class="text-white/70 hover:text-white transition-colors">Men's Collection</a></li>
+                        <li><a href="women.html" class="text-white/70 hover:text-white transition-colors">Women's Collection</a></li>
+                        <li><a href="collections.html" class="text-white/70 hover:text-white transition-colors">All Collections</a></li>
+                        <li><a href="collections.html#new" class="text-white/70 hover:text-white transition-colors">New Arrivals</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">About</h4>
+                    <ul class="space-y-2">
+                        <li><a href="about.html" class="text-white/70 hover:text-white transition-colors">Our Story</a></li>
+                        <li><a href="about.html#sustainability" class="text-white/70 hover:text-white transition-colors">Sustainability</a></li>
+                        <li><a href="about.html#technology" class="text-white/70 hover:text-white transition-colors">Technology</a></li>
+                        <li><a href="about.html#team" class="text-white/70 hover:text-white transition-colors">Our Team</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold text-lg mb-4">Help</h4>
+                    <ul class="space-y-2">
+                        <li><a href="contact.html" class="text-white/70 hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="contact.html#faq" class="text-white/70 hover:text-white transition-colors">FAQs</a></li>
+                        <li><a href="contact.html#size-guide" class="text-white/70 hover:text-white transition-colors">Size Guide</a></li>
+                        <li><a href="contact.html#stores" class="text-white/70 hover:text-white transition-colors">Store Locator</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-white/50 text-sm mb-4 md:mb-0">
+                    © 2023 Veloce Sportswear. All rights reserved.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-white/50 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-white/50 hover:text-white text-sm transition-colors">Terms of Service</a>
+                    <a href="#" class="text-white/50 hover:text-white text-sm transition-colors">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-accent text-white rounded-full flex items-center justify-center shadow-lg opacity-0 invisible transition-all">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // Mobile Menu Toggle
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+        
+        // Back to Top Button
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+                backToTopButton.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopButton.classList.remove('opacity-100', 'visible');
+                backToTopButton.classList.add('opacity-0', 'invisible');
+            }
+        });
+        
+        backToTopButton.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
